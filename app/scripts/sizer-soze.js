@@ -40,6 +40,9 @@
     var table = document.createElement( "table" ),
       tbody = document.createElement( "tbody" ),
       thead = document.createElement( "thead" ),
+      header = document.createElement( "h2" ),
+      summary_title = ["viewport", "image_data", "lossless", "lossy", "resize"],
+      summary_len = summary_title.length,
       tr, td, summary, summary2, results;
 
     results = document.querySelectorAll( ".sizer-results" );
@@ -48,10 +51,11 @@
 
     //HEAD
     summary2 = arr[0].summary;
+    header.innerHTML = summary2["url"];
     tr = document.createElement( "tr" );
-    for( var k in summary2 ){
+    for( var k = 0; k < summary_len; ++k){
       td = document.createElement( "td" );
-      td.innerHTML = k;
+      td.innerHTML = summary_title[k];
       tr.appendChild( td );
     }
     thead.appendChild( tr );
@@ -61,10 +65,9 @@
     for( var i = 0, l = arr.length; i < l; i++ ){
       tr = document.createElement( "tr" );
       summary = arr[i].summary;
-      for( var j in summary ){
-        console.log( j );
+      for( var j = 0; j < summary_len; ++j ) {
         td = document.createElement( "td" );
-        td.innerHTML = summary[j];
+        td.innerHTML = summary[summary_title[j]];
         tr.appendChild( td );
       }
       tbody.appendChild( tr );
@@ -76,6 +79,7 @@
       if( iframe ){
         r.removeChild( iframe );
       }
+      r.appendChild( header );
       r.appendChild( table );
     }
   };
@@ -125,12 +129,15 @@
     var data = this.gatherData();
     if( opts.distractionYTVideo ) {
       var results = document.querySelector( ".sizer-results.cf" );
+      var header = document.createElement("h3");
+      header.innerHTML = "Results will be right in. In the mean time, watch the Roomba, duck, sharkcat and sharkdog adventures!";
       var iframe = document.createElement( "iframe" );
       iframe.width = "560";
       iframe.height = "315";
       iframe.src =  "//www.youtube.com/embed/" + opts.distractionYTVideo + "?autoplay=1";
       iframe.frameborder="0";
       results.appendChild( iframe );
+      document.location.hash="results";
     }
     makeRequest( this.apiURL, data, processData );
   };
