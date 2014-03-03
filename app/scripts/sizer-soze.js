@@ -87,6 +87,7 @@
   var processData = function( err, data ){
     if( err ){
       console.log( err );
+      alert("Some sort of server error! Sorry!!!");
       return;
     }
 
